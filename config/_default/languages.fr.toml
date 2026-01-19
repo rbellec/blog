@@ -1,0 +1,14 @@
+languageCode = "fr"
+languageName = "Français"
+weight = 1
+title = "Raphaël Bellec"
+
+[params]
+  displayName = "FR"
+  isoCode = "fr"
+  dateFormat = "2 janvier 2006"
+  description = "Blog personnel de Raphaël Bellec"
+
+[params.author]
+  name = "Raphaël Bellec"
+  headline = "Blog personnel"
