@@ -2,7 +2,7 @@
 # https://blowfish.page/docs/getting-started/
 
 theme = "blowfish"
-baseURL = "https://rbellec.github.io/rbellec_blog/"
+baseURL = "https://rbellec.github.io/blog/"
 defaultContentLanguage = "fr"
 
 enableRobotsTXT = true
