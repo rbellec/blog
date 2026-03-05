@@ -1,7 +1,7 @@
 # -- Theme Parameters --
 # https://blowfish.page/docs/configuration/#theme-parameters
 
-colorScheme = "blowfish"
+colorScheme = "ocean"
 defaultAppearance = "light"
 autoSwitchAppearance = true
 
