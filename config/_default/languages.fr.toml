@@ -11,7 +11,7 @@ title = "Raphaël Bellec"
 
 [params.author]
   name = "Raphaël Bellec"
-  headline = "Blog personnel"
+  headline = "Developer, maker & digital tinkerer"
   image = "img/avatar.jpg"
 
   [[params.author.links]]

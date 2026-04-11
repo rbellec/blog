@@ -80,3 +80,8 @@ hugo --gc --minify
 - Layout "basic" pour le header
 - Layout "profile" pour la homepage
 - Apparence claire par défaut (avec switch dark/light)
+
+## Langue du contenu
+
+- Les textes de la homepage (headline, bio) restent en anglais dans les deux versions linguistiques (FR et EN)
+- Seuls les articles de blog sont traduits selon la langue
