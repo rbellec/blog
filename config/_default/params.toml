@@ -10,6 +10,10 @@ enableCodeCopy = true
 
 mainSections = ["posts"]
 
+[umamiAnalytics]
+  websiteid = "a269e6b9-26c6-4f4f-b1e2-cac592926d95"
+  domain = "umami.bellec.in"
+
 # Pas de fond dynamique
 defaultBackgroundImage = false
 defaultFeaturedImage = false
@@ -48,6 +52,7 @@ defaultFeaturedImage = false
   relatedContentLimit = 3
   showTaxonomies = true
   showWordCount = false
+  showComments = true
   sharingLinks = ["linkedin", "twitter", "email"]
 
 [list]
