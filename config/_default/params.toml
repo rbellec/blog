@@ -64,6 +64,9 @@ defaultFeaturedImage = false
   groupByYear = true
   cardView = true
 
+[verification]
+  google = "R809QrGoNmnwvtqi3HeQ4IjKzc7flrnak5niBxLfnVM"
+
 [taxonomy]
   showTermCount = true
   showHero = false
