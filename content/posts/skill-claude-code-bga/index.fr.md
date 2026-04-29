@@ -3,6 +3,7 @@ title: "Un skill Claude Code qui délivre, à l'épreuve de quatre jeux"
 date: 2026-04-29
 draft: false
 description: "Concevoir un skill Claude Code à travers l'adaptation de quatre jeux sur Board Game Arena : design, boucle de test, pièges silencieux, et ce qu'un agent décide quand la spec se tait."
+tags: ["Claude Code", "Skills", "Board-Game-Arena"]
 categories: ["Claude Code"]
 ---
 
