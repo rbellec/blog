@@ -143,6 +143,14 @@ Audit du repo Quantum Tic-Tac-Toe le 2026-04-28 :
 
 Ces chiffres mesurent une variante **simplifiée** des règles de Goff (résolution des victoires simultanées par « lowest maximum subscript » plutôt que par le partage de point décrit dans l'article original), avec un skill qui n'avait pas encore intégré les leçons des jeux suivants. C'est la mesure d'une rampe d'accès, pas d'un débit reproductible ni d'une annonce comme « faites n'importe quel jeu de plateau en 3 heures ». Je reste cependant impressionné.
 
+Audit du repo Duelly le 2026-05-04 — jeu complet avec cartes, animations, statistiques et internationalisation :
+
+- **~3 025 lignes de code** (PHP 1 811, JS 923, CSS 271, SQL 20) — environ 3× le volume de QTTT, pour un périmètre fonctionnel bien plus riche.
+- **94 commits sur 8 jours actifs** répartis sur ~3 semaines calendaire (15 avril → 4 mai), avec des creux dus aux échanges avec l'autrice et aux sessions de tests humains.
+- **Répartition **: 20 fix, 14 feat, 7 refactor, 15 ui/i18n, 24 chore/docs — reflet d'un jeu terminé de bout en bout, pas seulement « qui tourne ».
+
+Ces chiffres incluent la passe qualité PHP et l'adaptation graphique complète. QTTT mesurait la rampe d'accès ; Duelly mesure ce que donne le process une fois rodé.
+
 ## Conclusion
 
 Un premier travail vraiment intéressant : assez long pour que les pièges sortent du décor et que les bonnes pratiques s'installent.
