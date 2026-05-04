@@ -41,7 +41,7 @@ Le premier jeu choisi, **Go On Rasalva** (un jeu dont je suis co-auteur, pas enc
 
 Mais en considérant l'objectif réel, l'automatisation de ce type de développement, j'ai rapidement compris que j'irais probablement plus vite en testant vraiment plus simple. J'ai donc relancé le travail sur tic-tac-toe, avec l'objectif d'avoir un jeu jouable et testé de A à Z par Claude Code.
 
-Cette démarche s'est avérée payante et j'ai continué avec d'autres jeux disponibles en augmentant graduellement les features (gestion d'un paquet de cartes, différentes interactions utilisateur...) : tic-tac-toe quantique ([ici](https://boardgamegeek.com/boardgame/171143/quantum-tic-tac-toe)), Visite Royale ([ici](https://boardgamegeek.com/boardgame/22245/royal-visit)), Duelly (pas encore sur BGG). Chaque adaptation permettait d'améliorer graduellement le skill en réalisant le process de bout en bout pour, au final, revenir au premier jeu avec un process déjà validé qu'il suffirait d'améliorer.
+Cette démarche s'est avérée payante et j'ai continué avec d'autres jeux disponibles en augmentant graduellement les features (gestion d'un paquet de cartes, différentes interactions utilisateur...) : tic-tac-toe quantique ([ici](https://boardgamegeek.com/boardgame/171143/quantum-tic-tac-toe)), Visite Royale ([ici](https://boardgamegeek.com/boardgame/22245/royal-visit)), Duelly ([GitHub](https://github.com/rbellec/bga_duelly), terminé de bout en bout — publication en attente d'un point de licence). Chaque adaptation permettait d'améliorer graduellement le skill en réalisant le process de bout en bout pour, au final, revenir au premier jeu avec un process déjà validé qu'il suffirait d'améliorer.
 
 La question du transfert de cette réalisation à d'autres domaines reste ouverte. Lorsque les projets sont bornés, avec un process similaire (comme l'adaptation des jeux), cela semble adapté. Dans d'autres domaines, comme l'évolution et la maintenance d'un service SaaS en production avec une surface fonctionnelle importante, une infrastructure complète et beaucoup de code legacy, je ne sais si cette approche est possible.
 
@@ -51,6 +51,8 @@ Go On Rasalva comportait un plateau hexagonal avec un schéma de coloration part
 
 Dans le cas présent je n'ai pas trouvé d'autre méthode que fournir un code comme spécification. J'avais réglé ce sujet en Haskell il y a quelques années et cela a suffi pour qu'il soit immédiatement transcrit en PHP. Je pense garder l'idée du code dans la spécification dans ce type de cas pour le futur, mais je me questionne sur le nombre de problèmes de ce type existants.
 
+L'autre versant de la même difficulté : quand Claude Code tombe dans un piège propre au framework, s'en sortir sans connaissance du domaine est délicat. Il peut tourner longtemps sur la même erreur sans progresser. Ce qui est frappant, c'est qu'il lui arrive de s'en sortir seul par un chemin latéral auquel je n'aurais pas pensé — mais c'est encore au pilote de repérer le signal de blocage avant que l'énergie dépensée ne devienne le vrai problème.
+
 ## Hallucinations / interprétations
 
 Lors des premiers tests humains, un comportement nous a fortement surpris : tous les jeux produits ont des « comportements par défaut » certes valables au regard des règles, mais inattendus. Par exemple, le code généré déplace automatiquement une ou plusieurs pièces d'une manière qui semble être la meilleure dans la majorité des cas, mais cela devrait rester une décision du joueur et il pourrait avoir une stratégie plus élaborée.
@@ -58,6 +60,8 @@ Lors des premiers tests humains, un comportement nous a fortement surpris : tou
 Lors des lectures de règles j'ai rencontré plusieurs « interprétations hâtives », même sur des règles bien définies.
 
 Cette généralisation semble être un atout pour permettre de développer rapidement. Cela revient cependant à laisser des choix structurants à l'IA. Cela se voit rapidement quand il s'agit d'un jeu, mais semble être un champ de travail complet pour des logiciels plus complexes : quels choix « automatiques » peut-on accepter sur un SaaS qui traite des paies par exemple ? Comment détecter ce qui devrait être défini vs ce que l'on peut laisser à l'IA ? Je n'ai pas d'opinion tranchée à ce stade et pense traiter le résultat de l'IA comme un premier jet qui nourrit le product discovery.
+
+Un comportement connexe, moins critique mais récurrent : Claude Code donne parfois des conseils qui seraient tout à fait pertinents pour une équipe humaine — *« il vaudrait mieux livrer cette version stable et itérer ensuite »*, *« ce refacto représente plusieurs jours de travail »*. Ces recommandations font peu de sens quand la feature en question prend cinq à dix minutes et que la valeur est réelle. J'ai l'impression que ce biais apparaît surtout quand la demande *ressemble* à du travail d'équipe sérieux — une demande de refacto ou d'architecture — plutôt qu'à de l'exploration. D'autres ont noté le même phénomène.
 
 ## Quand les règles ne disent rien
 
@@ -71,7 +75,7 @@ J'ai donc adopté un workflow simple, précisé au fil des jeux. Le skill demand
 
 Le document `AUTHOR_QUESTIONS.md` est envoyé aux auteur.ices. À chaque retour, un statut bascule, parfois une hypothèse `[Hx]` saute, parfois c'est tout un sous-système qui disparaît avant même d'avoir été implémenté.
 
-**Exemple concret sur Duelly** (en cours d'adaptation). Le livret mentionne des cartes « Joker » qui pouvaient s'appliquer dans plusieurs situations — y compris sur un coup gagnant. Une question simple : *« Le Joker s'applique-t-il sur un Déplacer gagnant ? »*. La réponse des auteurs a été inattendue : *« En fait pour tout simplifier, on annule complètement les Jokers. »* Effets immédiats : un état du jeu, une colonne en base, un indicateur d'UI et une branche de la condition de victoire — tous supprimés avant d'avoir été codés. Quelques heures de travail économisées par une question écrite en deux minutes.
+**Exemple concret sur Duelly.** Le livret mentionne des cartes « Joker » qui pouvaient s'appliquer dans plusieurs situations — y compris sur un coup gagnant. Une question simple : *« Le Joker s'applique-t-il sur un Déplacer gagnant ? »*. La réponse des auteurs a été inattendue : *« En fait pour tout simplifier, on annule complètement les Jokers. »* Effets immédiats : un état du jeu, une colonne en base, un indicateur d'UI et une branche de la condition de victoire — tous supprimés avant d'avoir été codés. Quelques heures de travail économisées par une question écrite en deux minutes.
 
 Cette partie du workflow n'est pas spécifique à l'IA : un développeur humain qui adapte un jeu pose les mêmes questions. La différence, c'est que le workflow IA *force* l'explicitation. Un humain peut tenir l'ambiguïté dans sa tête en attendant que la situation se présente ; un agent ne le peut pas, et c'est cette contrainte qui produit la trace écrite, auditable, donc utile pour les auteur.ices.
 
@@ -84,6 +88,8 @@ La construction du skill s'est globalement faite en deux parties :
 J'hésite à proposer aux potentiels utilisateurs de pouvoir ajouter leur règle automatiquement : si Claude rencontre une erreur qui pourrait être résolue par l'ajout d'une règle, on propose à l'utilisateur de l'amender et d'envoyer une PR automatiquement.
 
 Pour prévenir les sujets de taille de contexte, j'ai séparé le skill en plusieurs fichiers. J'imagine pour le moment qu'une course entre l'ajout de règles et l'augmentation des tailles de contexte des modèles nous laisse de la marge avant d'optimiser ce sujet.
+
+Un mot sur les worktrees git : leur utilisation est vraiment agréable, mais elle se heurte à la petite taille de ces projets. Chaque tâche modifie beaucoup de code commun — les worktrees finissent par attendre les uns les autres, ce qui réduit l'intérêt du travail en parallèle.
 
 ### Exemple de piège
 
@@ -116,6 +122,16 @@ Deux autres problèmes du même registre — silencieux, fragiles à diagnostiqu
 
 **Un autre piège silencieux du même genre, mais à un étage différent.** Claude Code avait testé toutes les règles d'un jeu via la boucle DOM — pose, déplacement, victoire, tout au vert. Au premier test humain, surprise : *aucune pièce ne répondait au clic*. Le mécanisme de test, qui passe par `gameui.ajaxcall` pour déclencher les actions du framework, n'avait jamais exercé le chemin souris→pièce. La boucle de test certifie ce qu'elle teste, et seulement ça : la logique métier était bonne, l'interaction ne l'était pas. Le test humain reste, pour l'instant, le seul à attraper cette catégorie de bug.
 
+## Adaptation graphique
+
+Je m'attendais à passer du temps sur l'intégration des assets graphiques — c'est souvent là que les adaptations BGA deviennent laborieuses (pour moi du moins, ce n'est pas ma partie favorite). La réalité a été différente : Claude Code a réalisé toutes les adaptations graphiques de Duelly, y compris l'analyse des fichiers source par OCR, sans que j'aie à mettre les mains dedans. Je ne saurais compter le temps que ça a pris, mais je dirais ~3 à 4h du début à la fin en comptant les discussions avec l'autrice. 80% du travail ayant été fait en moins de 30 minutes.
+
+![Duelly sur BGA Studio](images/DuellyOnBgaStudio.webp)
+
+Un calibrage utile : avec un outil bien rodé, une autrice particulièrement réactive qui a fourni tous les assets et répondu aux questions de règles, et un jeu de complexité raisonnable, l'adaptation complète — code et graphismes — aura pris environ quatre jours à temps plein. Pour des équipes qui font régulièrement ce type d'adaptation et ont leur propre process, le gain devrait être considérable. Pour quelqu'un qui se lance sans repères, les outils facilitent vraiment le code et l'analyse des règles, mais je ne pense pas qu'on descende facilement sous une semaine — surtout si les échanges avec l'auteur·ice ou les assets graphiques doivent attendre.
+
+Une limite que je n'avais pas anticipée : sur BGA, les traductions ne sont disponibles qu'à partir du passage en alpha — impossible de travailler la localisation en amont. Et plus fondamentalement, les illustrations des cartes de Duelly sont entièrement en français. Pour internationaliser vraiment le jeu, il faudrait refaire les assets soit avec un texte neutre ou localisable, soit avec un réel travail pictographique. Ce n'est pas dans mon scope d'adaptation, mais c'est une leçon concrète pour l'autrice : un jeu pensé pour l'international dès la conception s'économise ce chantier d'illustration.
+
 ## Quelques chiffres
 
 Audit du repo Quantum Tic-Tac-Toe le 2026-04-28 :
@@ -133,8 +149,11 @@ Un premier travail vraiment intéressant : assez long pour que les pièges sort
 
 Les jeux de plateau sur BGA Studio se sont avérés un terrain d'entraînement étonnamment précieux : périmètre fonctionnel petit (les règles), framework imposé, validation immédiate (la partie passe ou ne passe pas). Tout ce qui rend un service SaaS pénible à apprivoiser disparaît. Ce qui reste — la spec, les pièges du framework, la boucle de test — est net et visible. Cela m'a permis de voir des comportements spécifiques au développement avec Claude Code qui me seraient probablement passés sous le nez sur un projet plus large.
 
-Une question courante, sans réponse encore : **à quoi sert la qualité du code quand un humain ne le lit plus ?** Dans le doute, je prépare un second article qui décrit la boucle qualité PHP branchée sur l'environnement de Claude Code (PHP-CS-Fixer, Rector, PHPStan, PHPMD) dans la prochaine version du skill — pour rendre la question testable plutôt que rhétorique.
+Une question courante, sans réponse encore : **à quoi sert la qualité du code quand un humain ne le lit plus ?** J'y ai passé du temps pendant le projet — refactos, nommage, réduction de dette — sans être certain que cela facilite les développements IA ultérieurs. La question reste ouverte.
 
-Pour la suite : je compte finir 3 de ces jeux, peut-être 4 si la licence pour Visite Royale aboutit. Au passage, je note un déplacement intéressant du goulot d'étranglement — le code n'est plus le problème, c'est la disponibilité des auteur.ices pour les tests humains qui ralentit maintenant la chaîne. Un constat de plus en plus partagé : pour de nombreux domaines le code s'écarte de la partie limitante du processus.
+Sur cinq jeux entamés, un seul est terminé de bout en bout : Duelly, en environ quatre jours à temps plein — code, graphismes et animations. L'autrice du jeu a été particulièrement réactive tout au long du projet, ce qui a beaucoup compté dans ce délai. La sortie publique du jeu se heurte pour l'instant à un deadlock administratif : il faut une inscription sur BGG pour demander une licence BGA, mais BGG souhaite réserver ses pages aux jeux physiques, et l'éditeur potentiel attend de voir si le jeu « marche » sur BGA avant d'envisager une édition.
+
+Ce déplacement du goulot d'étranglement est bien réel : le code n'est plus le problème, c'est la disponibilité des auteur·ices et la coordination autour des tests humains qui ralentissent la chaîne.
 
 Le [skill `claude-code-bga`](https://github.com/rbellec/claude-code-bga) est publié. J'espère des retours, des cas qui le cassent, des règles à ajouter, et plus largement des commentaires sur la démarche elle-même — c'est précisément le type de matière qui a fait évoluer le skill jusqu'ici.
+
